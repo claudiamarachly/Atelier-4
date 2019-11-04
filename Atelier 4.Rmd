@@ -1,0 +1,159 @@
+---
+title: "Atelier 4"
+author: "Claudia Marachly"
+date: "11/4/2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+nutriage <- read.csv("~/Downloads/Atelier4-master/nutriage.csv")
+mu<-mean(nutriage$taille)
+sigma<-sd(nutriage$taille)
+mu
+sigma
+proba_negative<-pnorm(0,mu,sigma)
+proba_negative
+```
+$X=e^y$ avec $y\sim N(\mu,\sigma)$ laors $y=\ln(X)$
+
+```{r}
+y<-log(nutriage$taille)
+hist(y)
+mu_y<-mean(y)
+sigma_y<-sd(y)
+mu_y
+sigma_y
+```
+Est-ce que $y$ est une distribution normale?
+
+```{r}
+z<-(y-mu_y)/sigma_y
+mean(z)
+sd(z)
+n<-length(z)
+N<-rnorm(n)
+qqplot(z,N,xlim=c(-3,3),ylim=c(-3,3))
+par(new=T)
+plot(z,z,type="l",col="red",xlim=c(-3,3),ylim=c(-3,3))
+```
+Simulation 
+
+```{r}
+n<-1000
+simulation<-rnorm(n,mu_y,sigma_y)
+taille_simulation<-exp(simulation)
+hist(taille_simulation)
+```
+
+
+Avec le poids 
+
+```{r}
+nutriage <- read.csv("~/Downloads/Atelier4-master/nutriage.csv")
+mu<-mean(nutriage$poids)
+sigma<-sd(nutriage$poids)
+mu
+sigma
+proba_negative<-pnorm(0,mu,sigma)
+proba_negative
+```
+$X=e^y$ avec $y\sim N(\mu,\sigma)$ laors $y=\ln(X)$
+
+```{r}
+y<-log(nutriage$poids)
+hist(y)
+mu_y<-mean(y)
+sigma_y<-sd(y)
+mu_y
+sigma_y
+```
+Est-ce que $y$ est une distribution normale?
+
+```{r}
+zp<-(y-mu_y)/sigma_y
+mean(z)
+sd(z)
+n<-length(zp)
+N<-rnorm(n)
+qqplot(zp,N,xlim=c(-3,3),ylim=c(-3,3))
+par(new=T)
+plot(zp,zp,type="l",col="red",xlim=c(-3,3),ylim=c(-3,3))
+```
+
+```{r}
+n<-1000
+simulation<-rnorm(n,mu_y,sigma_y)
+poids_simulation<-exp(simulation)
+hist(poids_simulation)
+```
+
+```{r}
+taille_h<-nutriage$taille[nutriage$sexe==1]
+taille_f<-nutriage$taille[nutriage$sexe==2]
+mean(taille_h)
+sd(taille_h)
+mean(taille_f)
+sd(taille_f)
+length(taille_h)
+length(taille_f)
+```
+
+```{r}
+log_taille_h<-log(taille_h)
+mu_logh<-mean(log_taille_h)
+sigma_logh<-sd(log_taille_h)
+z_h<-(log_taille_h - mu_logh)/sigma_logh
+N<-rnorm(log_taille_h)
+qqplot(z_h,N,xlim=c(-3,3),ylim=c(-3,3))
+par(new=T)
+plot(z_h,z_h,type="l",col="red",xlim=c(-3,3),ylim=c(-3,3))
+```
+
+```{r}
+log_taille_f<-log(taille_f)
+mu_logf<-mean(log_taille_f)
+sigma_logf<-sd(log_taille_f)
+z_f<-(log_taille_f - mu_logf)/sigma_logf
+N<-rnorm(log_taille_f)
+qqplot(z_f,N,xlim=c(-3,3),ylim=c(-3,3))
+par(new=T)
+plot(z_f,z_f,type="l",col="red",xlim=c(-3,3),ylim=c(-3,3))
+```
+
+variable café = qte de cafe pris par jour 
+cb de tasse de café une personne prend par jour? avec quelle variable on peut modeler la consommation de café dans une population 
+--> distribution de poisson
+comment on peut approcher la qte de tasse qu'on prend avec poisson 
+
+```{r}
+mean(nutriage$cafe)
+var(nutriage$cafe)
+lambda<-(mean(nutriage$cafe)+var(nutriage$cafe))/2
+lambda
+```
+var et mean presque identique --> une des proprieté poisson 
+avec lambda on peut utiliser la distribution de possion pour réaliser une simulation 
+
+```{r}
+simulation_p<-rpois(1000,lambda)
+boxplot(simulation_p)
+```
+
+Variable thé
+```{r}
+mean(nutriage$the)
+var(nutriage$the)
+lambda<-(mean(nutriage$the)+var(nutriage$the))/2
+lambda
+simulation_t<-rpois(1000,lambda)
+boxplot(simulation_t)
+```
+
+
+
+
+
